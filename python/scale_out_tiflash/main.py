@@ -44,6 +44,7 @@ class ScaleOutTiFlash:
     def modify_cluster(self, project_id: str, cluster_id: str, dedicated_config: dict) -> dict:
         """
         Add one TiFlash node for specified cluster
+        If the vCPUs of TiDB or TiKV component is 2 or 4, then the cluster does not support TiFlash.
         :param project_id: The project id
         :param cluster_id: The cluster id
         :param dedicated_config: The dedicated config
