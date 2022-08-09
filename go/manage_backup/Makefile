@@ -1,4 +1,4 @@
 .PHONY: default
 
 default:
-	GO11MODULE=on go build -o bin/manage_backup .
+	GO111MODULE=on go build -o bin/manage_backup .
