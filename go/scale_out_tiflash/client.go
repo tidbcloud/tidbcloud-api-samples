@@ -35,15 +35,12 @@ func initClient(publicKey, privateKey string) error {
 func waitFor(scene string, fn func() bool) {
 	ticker := time.NewTicker(time.Second)
 
-	for {
-		select {
-		case <-ticker.C:
-			if fn() {
-				return
-			}
-
-			log.Printf("still waitting %s to get ready...", scene)
+	for range ticker.C {
+		if fn() {
+			return
 		}
+
+		log.Printf("still waitting %s to get ready...", scene)
 	}
 }
 
@@ -67,7 +64,7 @@ func doRequest(method, url string, payload, output interface{}) (*resty.Response
 
 	// if the request return a non-200 response, wrap it with error
 	if resp.StatusCode() != http.StatusOK {
-		return resp, fmt.Errorf("failed with status %d and resp %s", resp.StatusCode(), resp)
+		return resp, fmt.Errorf("Failed with status %d and resp %s", resp.StatusCode(), resp)
 	}
 
 	// if we need to unmarshal the response into a struct, we pass it here, otherwise pass nil in the argument

@@ -23,7 +23,7 @@ type IPAccess struct {
 
 type ComponentTiDB struct {
 	NodeSize       string `json:"node_size"`
-	StorageSizeGib int    `json:"omitempty,storage_size_gib"`
+	StorageSizeGib int    `json:"storage_size_gib,omitempty"`
 	NodeQuantity   int    `json:"node_quantity"`
 }
 
@@ -40,9 +40,9 @@ type ComponentTiFlash struct {
 }
 
 type Components struct {
-	TiDB    ComponentTiDB    `json:"tidb"`
-	TiKV    ComponentTiKV    `json:"tikv"`
-	TiFlash ComponentTiFlash `json:"omitempty,tiflash"`
+	TiDB    *ComponentTiDB    `json:"tidb,omitempty"`
+	TiKV    *ComponentTiKV    `json:"tikv,omitempty"`
+	TiFlash *ComponentTiFlash `json:"tiflash,omitempty"`
 }
 
 type ClusterConfig struct {

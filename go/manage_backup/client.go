@@ -35,15 +35,12 @@ func initClient(publicKey, privateKey string) error {
 func waitFor(scene string, fn func() bool) {
 	ticker := time.NewTicker(time.Second)
 
-	for {
-		select {
-		case <-ticker.C:
-			if fn() {
-				return
-			}
-
-			log.Printf("still waitting %s to get ready...", scene)
+	for range ticker.C {
+		if fn() {
+			return
 		}
+
+		log.Printf("still waitting %s to get ready...", scene)
 	}
 }
 
