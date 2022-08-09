@@ -53,7 +53,7 @@ class ScaleOutTiFlash:
             provider_regions_specifications = self.get_dedicated_provider_regions_specifications()
             tidb_quantity_range = dedicated_config["config"]["components"]["tidb"]["node_quantity"]
             tikv_quantity_range = dedicated_config["config"]["components"]["tikv"]["node_quantity"]
-            if "tiflash" in dedicated_config["config"]["components"]:
+            if dedicated_config["config"]["components"]["tiflash"] is not None:
                 tiflash_size = dedicated_config["config"]["components"]["tiflash"]["node_size"]
                 tiflash_storage_size_gib = dedicated_config["config"]["components"]["tiflash"]["storage_size_gib"]
                 tiflash_node_quantity = dedicated_config["config"]["components"]["tiflash"]["node_quantity"] + 1
