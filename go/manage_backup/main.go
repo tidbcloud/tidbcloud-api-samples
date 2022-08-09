@@ -184,6 +184,10 @@ func main() {
 		return
 	}
 	cluster, err = getClusterByID(projectID, resp.ClusterID)
+	if err != nil {
+		fmt.Printf("Failed to get cluster status: %s\n", err)
+		return
+	}
 	fmt.Printf("Cluster status: %+v\n", cluster)
 
 	//waitFor("cluster", func() bool {

@@ -71,11 +71,11 @@ func createDedicatedCluster(projectID uint64, spec *Specification) (*CreateClust
 			RootPassword: "your secret password", // NOTE change to your cluster password, we generate a random password here
 			Port:         4000,
 			Components: Components{
-				TiDB: ComponentTiDB{
+				TiDB: &ComponentTiDB{
 					NodeSize:     tidbSpec.NodeSize,
 					NodeQuantity: tidbSpec.NodeQuantityRange.Min,
 				},
-				TiKV: ComponentTiKV{
+				TiKV: &ComponentTiKV{
 					NodeSize:       tikvSpec.NodeSize,
 					StorageSizeGib: tikvSpec.StorageSizeGibRange.Min,
 					NodeQuantity:   tikvSpec.NodeQuantityRange.Min,

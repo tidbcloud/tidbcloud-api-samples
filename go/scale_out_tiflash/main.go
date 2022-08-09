@@ -162,6 +162,10 @@ func main() {
 	// Step 2: check progress
 	fmt.Printf("Step 2: wait cluster to get ready\n")
 	cluster, err = getClusterByID(projectID, clusterID)
+	if err != nil {
+		fmt.Printf("Failed to get cluster status: %s\n", err)
+		return
+	}
 	fmt.Printf("Cluster status: %+v\n", cluster)
 	//waitFor("cluster", func() bool {
 	//cluster, err := getClusterByID(projectID, clusterID)

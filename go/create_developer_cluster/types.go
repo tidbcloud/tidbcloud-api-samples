@@ -40,9 +40,9 @@ type ComponentTiFlash struct {
 }
 
 type Components struct {
-	TiDB    ComponentTiDB    `json:"tidb"`
-	TiKV    ComponentTiKV    `json:"tikv"`
-	TiFlash ComponentTiFlash `json:"omitempty,tiflash"`
+	TiDB    *ComponentTiDB    `json:"tidb,omitempty"`
+	TiKV    *ComponentTiKV    `json:"tikv,omitempty"`
+	TiFlash *ComponentTiFlash `json:"tiflash,omitempty"`
 }
 
 type ClusterConfig struct {
