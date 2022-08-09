@@ -34,6 +34,11 @@ To run the complete code sample, take the following steps:
 
 3. Run the sample:
 
-   ```shell
-   python main.py # Might be "python3" depending on your Python installation
-   ```
+    ```shell
+    # export TIDBCLOUD_PUBLIC_KEY="<your public key>"
+    # export TIDBCLOUD_PRIVATE_KEY="<your private key>"
+    # export DEDICATED_PROJECT_ID="<your dedicated project id>"
+    # export DEDICATED_CLUSTER_ID="<your dedicated cluster id>"
+
+    python main.py # Might be "python3" depending on your Python installation
+    ```

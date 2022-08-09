@@ -46,5 +46,10 @@ Note that you can only create backups for a Dedicated Tier cluster.
 3. Execute the program.
 
     ```bash
+    # export TIDBCLOUD_PUBLIC_KEY="<your public key>"
+    # export TIDBCLOUD_PRIVATE_KEY="<your private key>"
+    # export DEDICATED_PROJECT_ID="<your dedicated project id>"
+    # export DEDICATED_CLUSTER_ID="<your dedicated cluster id>"
+
     ./bin/manage_backup
     ```
