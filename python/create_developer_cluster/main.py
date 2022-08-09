@@ -29,6 +29,7 @@ class CreateDeveloperCluster:
         """
         url = f"{HOST}/api/v1beta/projects"
         resp = requests.get(url=url, auth=self.digest_auth)
+        print(f"Method: {resp.request.method}, Request: {url}")
         return _response(resp)
 
     def get_provider_regions_specifications(self):
@@ -38,6 +39,7 @@ class CreateDeveloperCluster:
         """
         url = f"{HOST}/api/v1beta/clusters/provider/regions"
         resp = requests.get(url=url, auth=self.digest_auth)
+        print(f"Method: {resp.request.method}, Request: {url}")
         return _response(resp)
 
     def create_developer_cluster(self, project_id: str, region: str) -> dict:
@@ -47,6 +49,7 @@ class CreateDeveloperCluster:
         :param region: Available region for developer cluster
         :return: The developer cluster id
         """
+        url = f"{HOST}/api/v1beta/projects/{project_id}/clusters"
         ts = int(time.time())
         data_config = \
             {
@@ -68,9 +71,10 @@ class CreateDeveloperCluster:
                     }
             }
         data_config_json = json.dumps(data_config)
-        resp = requests.post(url=f"{HOST}/api/v1beta/projects/{project_id}/clusters",
+        resp = requests.post(url=url,
                              auth=self.digest_auth,
                              data=data_config_json)
+        print(f"Method: {resp.request.method}, Request: {url}, Payload: {data_config_json}")
         return _response(resp)
 
     def get_cluster_by_id(self, project_id: str, cluster_id: str) -> dict:
@@ -93,8 +97,10 @@ class CreateDeveloperCluster:
         :param cluster_id: The cluster id
         :return: Result for deletion
         """
-        resp = requests.delete(url=f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}",
+        url = f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}"
+        resp = requests.delete(url=url,
                                auth=self.digest_auth)
+        print(f"Method: {resp.request.method}, Request: {url}")
         return _response(resp)
 
 
@@ -159,10 +165,12 @@ def usage_demo():
     except KeyError:
         print("project id not found!")
         raise
+    print()
 
     print("2. Get the cloud providers, regions and available specifications")
     provider_region_specifications = create_cluster.get_provider_regions_specifications()
     region = _get_developer_region(provider_region_specifications)
+    print()
 
     print(f"3. Create a developer cluster in your specified project ( project id : {sample_project_id} ). ")
     cluster = create_cluster.create_developer_cluster(sample_project_id, region)
@@ -170,9 +178,11 @@ def usage_demo():
         sample_cluster_id = cluster["id"]
     except KeyError:
         print("cluster id not found!")
+    print()
 
     print(f"4. Get the new cluster ( cluster id : {sample_cluster_id} ) detail. ")
     create_cluster.get_cluster_by_id(sample_project_id, sample_cluster_id)
+    print()
 
     # print("If necessary , delete the cluster.")
     # create_cluster.delete_cluster(sample_project_id, sample_cluster_id)

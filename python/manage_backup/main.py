@@ -29,12 +29,14 @@ class ManageBackup:
         :param cluster_id: The dedicated cluster id
         :return: The backup id
         """
+        url = f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}/backups"
         cur_date = datetime.datetime.now().strftime("%Y-%m-%d")
         data_for_backup = {"name": f"tidbcloud-backup-{cur_date}", "description": f"tidbcloud-backup-{cur_date}"}
         data_for_backup_json = json.dumps(data_for_backup)
-        resp = requests.post(url=f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}/backups",
+        resp = requests.post(url=url,
                              data=data_for_backup_json,
                              auth=self.digest_auth)
+        print(f"Method: {resp.request.method}, Request: {url}, Payload:{data_for_backup_json}")
         return _response(resp)
 
     def get_backup_info(self, project_id: str, cluster_id: str, backup_id: str) -> dict:
@@ -45,8 +47,10 @@ class ManageBackup:
         :param backup_id: Thr backup id
         :return: The backup detail
         """
-        resp = requests.get(url=f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}/backups/{backup_id}",
+        url = f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}/backups/{backup_id}"
+        resp = requests.get(url=url,
                             auth=self.digest_auth)
+        print(f"Method: {resp.request.method}, Request: {url}")
         return _response(resp)
 
     def delete_backup(self, project_id: str, cluster_id: str, backup_id: str) -> dict:
@@ -57,8 +61,10 @@ class ManageBackup:
         :param backup_id: The backup id
         :return:
         """
-        resp = requests.delete(url=f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}/backups/{backup_id}",
+        url = f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}/backups/{backup_id}"
+        resp = requests.delete(url=url,
                                auth=self.digest_auth)
+        print(f"Method: {resp.request.method}, Request: {url}")
         return _response(resp)
 
     def create_restore_task(self, project_id: str, back_up_id: str, dedicated_config: dict) -> dict:
@@ -76,7 +82,7 @@ class ManageBackup:
             tikv_quantity_range = dedicated_config["config"]["components"]["tikv"]["node_quantity"]
             tikv_storage_size_gib_range = dedicated_config["config"]["components"]["tikv"]["storage_size_gib"]
             tiflash_exist = False
-            if "tiflash" in dedicated_config["config"]["components"]:
+            if dedicated_config["config"]["components"]["tiflash"] is not None:
                 tiflash_exist = True
                 tiflash_size = dedicated_config["config"]["components"]["tiflash"]["node_size"]
                 tiflash_quantity_range = dedicated_config["config"]["components"]["tiflash"]["node_quantity"]
@@ -84,6 +90,7 @@ class ManageBackup:
         except KeyError:
             print("cloud provider or region or available specifications not found!")
             raise
+        url = f"{HOST}/api/v1beta/projects/{project_id}/restores"
         cur_date = datetime.datetime.now().strftime("%Y-%m-%d")
         if tiflash_exist:
             data_for_restore = \
@@ -159,8 +166,9 @@ class ManageBackup:
                         }
                 }
         data_for_restore_json = json.dumps(data_for_restore)
-        resp = requests.post(url=f"{HOST}/api/v1beta/projects/{project_id}/restores", auth=self.digest_auth,
+        resp = requests.post(url=url, auth=self.digest_auth,
                              data=data_for_restore_json)
+        print(f"Method: {resp.request.method}, Request: {url}, Payload:{data_for_restore_json}")
         return _response(resp)
 
     def get_cluster_by_id(self, project_id: str, cluster_id: str) -> dict:
@@ -172,8 +180,10 @@ class ManageBackup:
         :param cluster_id: The cluster id
         :return: The cluster detail
         """
-        resp = requests.get(url=f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}",
+        url = f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}"
+        resp = requests.get(url=url,
                             auth=self.digest_auth)
+        print(f"Method: {resp.request.method}, Request: {url}")
         return _response(resp)
 
     def delete_cluster(self, project_id: str, cluster_id: str) -> dict:
@@ -183,8 +193,10 @@ class ManageBackup:
         :param cluster_id: The cluster id
         :return: Result for deletion
         """
-        resp = requests.delete(url=f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}",
+        url = f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}"
+        resp = requests.delete(url=url,
                                auth=self.digest_auth)
+        print(f"Method: {resp.request.method}, Request: {url}")
         return _response(resp)
 
 
@@ -236,11 +248,14 @@ def usage_demo():
     except KeyError:
         print("backup id not found!")
         raise
+    print()
 
     print(f"2. Show backup ( backup id : {sample_backup_id} ) process.")
     manage_backup.get_backup_info(dedicated_project_id, dedicated_cluster_id, sample_backup_id)
+    print()
 
     # # tips: wait until backup completed before restore
+    # sample_backup_id = "60346"
     # print("3. Restore backup data to a new cluster.")
     # dedicated_cluster_detail = manage_backup.get_cluster_by_id(dedicated_project_id, dedicated_cluster_id)
     # restore = manage_backup.create_restore_task(dedicated_project_id, sample_backup_id, dedicated_cluster_detail)
@@ -249,13 +264,16 @@ def usage_demo():
     # except KeyError:
     #     print("the restore cluster id not found!")
     #     raise
+    # print()
     #
     # print(f"4. Get the new cluster ( cluster id : {sample_restore_cluster_id} ) detail.")
     # manage_backup.get_cluster_by_id(dedicated_project_id, sample_restore_cluster_id)
+    # print()
 
     # # tear down if necessary
     # print("If necessary , delete the backup.")
     # manage_backup.delete_backup(dedicated_project_id, dedicated_cluster_id, sample_backup_id)
+    # print()
     #
     # print("If necessary , delete the init cluster.")
     # manage_backup.delete_cluster(dedicated_project_id, dedicated_cluster_id)

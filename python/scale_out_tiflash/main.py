@@ -29,6 +29,7 @@ class ScaleOutTiFlash:
         """
         url = f"{HOST}/api/v1beta/clusters/provider/regions"
         resp = requests.get(url=url, auth=self.digest_auth)
+        print(f"Method: {resp.request.method}, Request: {url}")
         resp_body = _response(resp)
         try:
             items = resp_body["items"]
@@ -64,7 +65,7 @@ class ScaleOutTiFlash:
         except (KeyError, IndexError) as e:
             print(f"cloud provider or region or available specifications not found! exception: {e}")
             raise
-
+        url = f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}"
         data_add_tiflash = \
             {
                 "config":
@@ -89,9 +90,10 @@ class ScaleOutTiFlash:
                     }
             }
         data_add_tiflash_json = json.dumps(data_add_tiflash)
-        resp = requests.patch(url=f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}",
+        resp = requests.patch(url=url,
                               auth=self.digest_auth,
                               data=data_add_tiflash_json)
+        print(f"Method: {resp.request.method}, Request: {url}, Payload:{data_add_tiflash_json}")
         return _response(resp)
 
     def get_cluster_by_id(self, project_id: str, cluster_id: str) -> dict:
@@ -103,8 +105,10 @@ class ScaleOutTiFlash:
         :param cluster_id: The cluster id
         :return: The cluster detail
         """
-        resp = requests.get(url=f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}",
+        url = f"{HOST}/api/v1beta/projects/{project_id}/clusters/{cluster_id}"
+        resp = requests.get(url=url,
                             auth=self.digest_auth)
+        print(f"Method: {resp.request.method}, Request: {url}")
         return _response(resp)
 
 
@@ -152,9 +156,11 @@ def usage_demo():
     print("1. Add one TiFlash node for specified cluster.")
     dedicated_cluster_info = scale_out_tiflash.get_cluster_by_id(dedicated_project_id, dedicated_cluster_id)
     scale_out_tiflash.modify_cluster(dedicated_project_id, dedicated_cluster_id, dedicated_cluster_info)
+    print()
 
     print("2. View the scale-out progress.")
     scale_out_tiflash.get_cluster_by_id(dedicated_project_id, dedicated_cluster_id)
+    print()
 
     print("Thanks for watching! ")
     print("-" * 88)
