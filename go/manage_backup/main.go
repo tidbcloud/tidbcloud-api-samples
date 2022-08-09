@@ -219,5 +219,5 @@ func main() {
 	//return
 	//}
 
-	fmt.Printf("You have created a backup and restore it to a new cluster(don't forget to delete it).\n")
+	fmt.Printf("You have created a backup(don't forget to delete it).\n")
 }
