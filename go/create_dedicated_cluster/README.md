@@ -39,5 +39,8 @@ For details, refer to [Prerequisites for Go](../README.md#prerequisites).
 3. Execute the program.
 
     ```bash
+    # export TIDBCLOUD_PUBLIC_KEY="<your public key>"
+    # export TIDBCLOUD_PRIVATE_KEY="<your private key>"
+
     ./bin/create_cluster
     ```

@@ -14,19 +14,24 @@ To run the complete code sample, take the following steps.
 
 1. Clone the repository:
 
-   ```
-   git clone https://github.com/tidbcloud/tidbcloud-api-samples.git
-   ```
+    ```
+    git clone https://github.com/tidbcloud/tidbcloud-api-samples.git
+    ```
 
 2. Install the dependencies using pip:
 
-   ```shell
-   cd tidbcloud-api-sample-test/python/scale_out_tiflash
-   pip install -r requirements.txt # Might be "pip3" depending on your Python installation
-   ```
+    ```shell
+    cd tidbcloud-api-sample-test/python/scale_out_tiflash
+    pip install -r requirements.txt # Might be "pip3" depending on your Python installation
+    ```
 
 3. Run the sample:
 
-   ```shell
-   python main.py # Might be "python3" depending on your Python installation
-   ```
+    ```shell
+    # export TIDBCLOUD_PUBLIC_KEY="<your public key>"
+    # export TIDBCLOUD_PRIVATE_KEY="<your private key>"
+    # export DEDICATED_PROJECT_ID="<your dedicated project id>"
+    # export DEDICATED_CLUSTER_ID="<your dedicated cluster id>"
+
+    python main.py # Might be "python3" depending on your Python installation
+    ```
