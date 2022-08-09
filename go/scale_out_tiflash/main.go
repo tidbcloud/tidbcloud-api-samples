@@ -38,6 +38,7 @@ func getSpecClusterUsing(specifications *GetSpecificationsResp, cluster *GetClus
 }
 
 // addTiFlashToCluster add TiFlash to a existing cluster
+// If the vCPUs of TiDB or TiKV component is 2 or 4, then the cluster does not support TiFlash.
 func addTiFlashToCluster(cluster *GetClusterResp, projectID uint64, spec *Specification) error {
 	var (
 		url              = fmt.Sprintf("%s/api/v1beta/projects/%d/clusters/%d", Host, projectID, cluster.ID)
