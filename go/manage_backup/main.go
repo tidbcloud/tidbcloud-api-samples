@@ -165,30 +165,31 @@ func main() {
 		fmt.Printf("Failed to create cluster backup for cluster id %d: %s", clusterID, err)
 		return
 	}
+	fmt.Printf("BackupID is %d\n", backupID)
 
-	waitFor("backup", func() bool {
-		backup, err := getBackupByID(projectID, clusterID, backupID)
-		if err != nil {
-			fmt.Printf("Failed to query cluster backup detail by id %d: %s", backupID, err)
-			return false
-		}
+	//waitFor("backup", func() bool {
+	//backup, err := getBackupByID(projectID, clusterID, backupID)
+	//if err != nil {
+	//fmt.Printf("Failed to query cluster backup detail by id %d: %s", backupID, err)
+	//return false
+	//}
 
-		return backup.Status == BackupSuccess
-	})
+	//return backup.Status == BackupSuccess
+	//})
 
-	// Step 3: restore from backup
-	fmt.Printf("Step 3: restore cluster from backup %d\n", backupID)
-	resp, err := restoreClusterByBackupID(cluster, projectID, backupID)
-	if err != nil {
-		fmt.Printf("Failed to restore cluster from backup id %d: %s", backupID, err)
-		return
-	}
-	cluster, err = getClusterByID(projectID, resp.ClusterID)
-	if err != nil {
-		fmt.Printf("Failed to get cluster status: %s\n", err)
-		return
-	}
-	fmt.Printf("Cluster status: %+v\n", cluster)
+	//// Step 3: restore from backup
+	//fmt.Printf("Step 3: restore cluster from backup %d\n", backupID)
+	//resp, err := restoreClusterByBackupID(cluster, projectID, backupID)
+	//if err != nil {
+	//fmt.Printf("Failed to restore cluster from backup id %d: %s", backupID, err)
+	//return
+	//}
+	//cluster, err = getClusterByID(projectID, resp.ClusterID)
+	//if err != nil {
+	//fmt.Printf("Failed to get cluster status: %s\n", err)
+	//return
+	//}
+	//fmt.Printf("Cluster status: %+v\n", cluster)
 
 	//waitFor("cluster", func() bool {
 	//cluster, err := getClusterByID(projectID, resp.ClusterID)
