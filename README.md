@@ -1,6 +1,6 @@
 <!-- Copyright(C) 2022 PingCAP. All Rights Reserved. -->
 
-# TiDB Cloud API Samples Test
+# TiDB Cloud API Samples
 
 __*Samples are currently in preview.*__
 
