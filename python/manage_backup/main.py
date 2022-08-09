@@ -255,7 +255,6 @@ def usage_demo():
     print()
 
     # # tips: wait until backup completed before restore
-    # sample_backup_id = "60346"
     # print("3. Restore backup data to a new cluster.")
     # dedicated_cluster_detail = manage_backup.get_cluster_by_id(dedicated_project_id, dedicated_cluster_id)
     # restore = manage_backup.create_restore_task(dedicated_project_id, sample_backup_id, dedicated_cluster_detail)
