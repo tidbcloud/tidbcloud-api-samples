@@ -165,7 +165,12 @@ func main() {
 		fmt.Printf("Failed to create cluster backup for cluster id %d: %s", clusterID, err)
 		return
 	}
-	fmt.Printf("BackupID is %d\n", backupID)
+	backup, err := getBackupByID(projectID, clusterID, backupID)
+	if err != nil {
+		fmt.Printf("Failed to get backup info of backup %d: %s\n", backupID, err)
+		return
+	}
+	fmt.Printf("Backup is %+v\n", backup)
 
 	//waitFor("backup", func() bool {
 	//backup, err := getBackupByID(projectID, clusterID, backupID)
